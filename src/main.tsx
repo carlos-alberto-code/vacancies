@@ -1,55 +1,45 @@
-import {StrictMode} from 'react'
-import {createRoot} from 'react-dom/client'
-import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import './index.css'
+import {StrictMode} from 'react'
+import esES from 'antd/locale/es_ES'
+import {createRoot} from 'react-dom/client'
+import {ConfigProvider, App as AntdApp} from 'antd'
+import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 
-// Importamos el Layout principal (el esqueleto con Sidebar)
-import AppLayout from "./AppLayout"
+import theme from './theme'
 
-// Importamos tu nueva página de Vacantes
-import VacantesPage from './pages/VacantesPage'
+import Sidebar from './Sidebar'
+import {Profile} from "./pages/Profile.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
+import Vacancies from "./pages/Vacancies.tsx";
 
-// --- Componentes temporales para las páginas que aún no has creado ---
-// (Esto evita que la app se rompa mientras terminas de desarrollar)
-const DashboardPage = () => (
-    <div style={{textAlign: 'center', marginTop: '50px'}}>
-        <h1 style={{fontSize: '2rem'}}>📊 Dashboard de Análisis</h1>
-        <p style={{color: '#666'}}>Aquí verás gráficas comparando tus skills vs el mercado.</p>
-    </div>
-);
 
-const PerfilPage = () => (
-    <div style={{textAlign: 'center', marginTop: '50px'}}>
-        <h1 style={{fontSize: '2rem'}}>👨‍💻 Mi Perfil Profesional</h1>
-        <p style={{color: '#666'}}>Aquí renderizaremos tu archivo Markdown personal.</p>
-    </div>
-);
-
-// --- Configuración del Router ---
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <AppLayout/>, // El Layout envuelve a todas las sub-rutas
+        element: <Sidebar/>,
         children: [
             {
-                path: "/",          // Ruta raíz (http://localhost:5173/)
-                element: <DashboardPage/>,
+                path: "/",
+                element: <Dashboard/>,
             },
             {
-                path: "/vacantes",  // Ruta de vacantes (http://localhost:5173/vacantes)
-                element: <VacantesPage/>,
+                path: "/vacantes",
+                element: <Vacancies/>,
             },
             {
-                path: "/perfil",    // Ruta de perfil (http://localhost:5173/perfil)
-                element: <PerfilPage/>,
+                path: "/perfil",
+                element: <Profile/>,
             },
         ],
     },
 ]);
 
-// --- Renderizado de la App ---
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <RouterProvider router={router}/>
+        <ConfigProvider theme={theme} locale={esES}>
+            <AntdApp>
+                <RouterProvider router={router}/>
+            </AntdApp>
+        </ConfigProvider>
     </StrictMode>,
 )
