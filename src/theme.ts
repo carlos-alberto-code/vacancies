@@ -6,16 +6,13 @@ const themeConfiguration: ThemeConfig = {
         colorPrimary: "#3b82f6",
         colorInfo: "#06b6d4",
 
-        // --- SEMÁNTICA DE DATOS ---
         colorSuccess: "#10b981",
         colorError: "#ef4444",
         colorWarning: "#f59e0b",
 
-        // --- TIPOGRAFÍA Y BASE ---
         colorBgBase: "#0f172a",
         colorTextBase: "#f1f5f9",
 
-        // --- GEOMETRÍA ---
         borderRadius: 6,
         fontFamily: "'Inter', 'Roboto', sans-serif",
     },

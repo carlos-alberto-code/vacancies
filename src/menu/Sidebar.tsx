@@ -1,37 +1,25 @@
+// src/menu/Sidebar.tsx
 import React, {useState} from 'react';
 import {Outlet, useNavigate, useLocation} from 'react-router-dom';
 import {
-    DesktopOutlined,
-    PieChartOutlined,
-    UserOutlined,
     MenuUnfoldOutlined,
     MenuFoldOutlined
 } from '@ant-design/icons';
 import {Layout, Menu, theme, Button} from 'antd';
 import type {MenuProps} from 'antd';
+import {type AppMenuItem, SIDEBAR_ITEMS} from "./menu.config.tsx";
 
 const {Header, Content, Sider} = Layout;
 
-type MenuItem = Required<MenuProps>['items'][number];
-
-// Helper to create menu items with proper typing
-function getItem(
-    label: React.ReactNode,
-    key: React.Key,
-    icon?: React.ReactNode,
-    children?: MenuItem[],
-): MenuItem {
-    return {key, icon, children, label} as MenuItem;
-}
-
-// Menu Definition
-const menuItems: MenuItem[] = [
-    getItem('Dashboard', '/', <PieChartOutlined/>),
-    // Nota: Usamos '/vacancies' para coincidir con el nombre del componente,
-    // asegúrate de actualizar tu main.tsx router si cambias esto.
-    getItem('Mis Vacantes', '/vacantes', <DesktopOutlined/>),
-    getItem('Perfil', '/perfil', <UserOutlined/>),
-];
+// Helper para transformar nuestra config simple a la config compleja de AntD
+const transformToAntdItems = (items: AppMenuItem[]): MenuProps['items'] => {
+    return items.map((item) => ({
+        key: item.key,
+        icon: item.icon,
+        label: item.label,
+        children: item.children ? transformToAntdItems(item.children) : undefined,
+    }));
+};
 
 export function Sidebar(): React.JSX.Element {
     const [collapsed, setCollapsed] = useState(false);
@@ -40,8 +28,14 @@ export function Sidebar(): React.JSX.Element {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Determine selected key based on current URL to keep menu in sync
-    const selectedKey = location.pathname === '/' ? '/' : location.pathname;
+    // Generamos los items dinámicamente
+    const antdMenuItems = transformToAntdItems(SIDEBAR_ITEMS);
+
+    // Lógica para mantener el menú seleccionado incluso en sub-rutas
+    // (Ej: si estás en /vacantes/detalle, que siga marcado /vacantes)
+    const getSelectedKey = () => {
+        return location.pathname;
+    };
 
     return (
         <Layout style={{minHeight: '100vh'}}>
@@ -50,8 +44,9 @@ export function Sidebar(): React.JSX.Element {
                 collapsible
                 collapsed={collapsed}
                 style={{background: token.colorBgContainer}}
-                theme="light" // Cambiado a light para un look más moderno, o usa "dark" si prefieres
+                theme="dark"
             >
+                {/* Logo area */}
                 <div
                     style={{
                         height: 32,
@@ -65,9 +60,11 @@ export function Sidebar(): React.JSX.Element {
                 <Menu
                     theme="light"
                     mode="inline"
-                    selectedKeys={[selectedKey]}
-                    items={menuItems}
-                    onClick={({key}) => navigate(key.toString())}
+                    // Usamos el path actual como la llave seleccionada
+                    selectedKeys={[getSelectedKey()]}
+                    items={antdMenuItems}
+                    // Al hacer click, navegamos a la "key" que definimos como la RUTA
+                    onClick={({key}) => navigate(key)}
                     style={{borderRight: 0}}
                 />
             </Sider>
@@ -88,7 +85,6 @@ export function Sidebar(): React.JSX.Element {
                 </Header>
 
                 <Content style={{margin: '24px 16px 0'}}>
-                    {/* The Outlet renders the child route components (Dashboard, VacanciesPage, etc.) */}
                     <Outlet/>
                 </Content>
             </Layout>

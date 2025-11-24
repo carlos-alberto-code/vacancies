@@ -1,17 +1,17 @@
 import './index.css'
+import theme from './theme'
 import {StrictMode} from 'react'
 import esES from 'antd/locale/es_ES'
 import {createRoot} from 'react-dom/client'
 import {ConfigProvider, App as AntdApp} from 'antd'
-import {createBrowserRouter, RouterProvider} from 'react-router-dom'
+import {createBrowserRouter, RouterProvider, Navigate} from 'react-router-dom'
 
-import theme from './theme'
 
-import Sidebar from './Sidebar'
-import {Profile} from "./pages/Profile.tsx";
-import Dashboard from "./pages/Dashboard.tsx";
-import Vacancies from "./pages/Vacancies.tsx";
-
+import {ROUTES} from "./menu/paths.ts";
+import Sidebar from './menu/Sidebar.tsx'
+import {Profile} from "./pages/Profile.tsx"
+import Dashboard from "./pages/Dashboard.tsx"
+import Vacancies from "./pages/Vacancies.tsx"
 
 const router = createBrowserRouter([
     {
@@ -19,15 +19,19 @@ const router = createBrowserRouter([
         element: <Sidebar/>,
         children: [
             {
-                path: "/",
+                index: true,
+                element: <Navigate to={ROUTES.DASHBOARD} replace/>,
+            },
+            {
+                path: ROUTES.DASHBOARD,
                 element: <Dashboard/>,
             },
             {
-                path: "/vacantes",
+                path: ROUTES.VACANCIES,
                 element: <Vacancies/>,
             },
             {
-                path: "/perfil",
+                path: ROUTES.PROFILE,
                 element: <Profile/>,
             },
         ],
