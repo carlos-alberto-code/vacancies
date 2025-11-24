@@ -1,8 +1,6 @@
 import React from 'react';
 import {
-    PieChartOutlined,
-    DesktopOutlined,
-    UserOutlined
+    CloudSyncOutlined, DashboardOutlined, SolutionOutlined, IdcardOutlined
 } from '@ant-design/icons';
 import {ROUTES} from "./paths.ts";
 
@@ -17,21 +15,21 @@ export const SIDEBAR_ITEMS: AppMenuItem[] = [
     {
         key: ROUTES.SCRAPER,
         label: 'Scraper',
-        icon: <DesktopOutlined/>,
+        icon: <CloudSyncOutlined/>,
     },
     {
         key: ROUTES.DASHBOARD,
         label: 'Dashboard',
-        icon: <PieChartOutlined/>,
+        icon: <DashboardOutlined/>,
     },
     {
         key: ROUTES.VACANCIES,
         label: 'Vacantes',
-        icon: <DesktopOutlined/>,
+        icon: <SolutionOutlined/>,
     },
     {
         key: ROUTES.PROFILE,
         label: 'Perfil Profesional',
-        icon: <UserOutlined/>,
+        icon: <IdcardOutlined/>,
     },
 ];
