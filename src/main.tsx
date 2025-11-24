@@ -10,6 +10,7 @@ import {createBrowserRouter, RouterProvider, Navigate} from 'react-router-dom'
 import {ROUTES} from "./menu/paths.ts";
 import Sidebar from './menu/Sidebar.tsx'
 import {Profile} from "./pages/Profile.tsx"
+import {Scraper} from "./pages/Scraper.tsx";
 import Dashboard from "./pages/Dashboard.tsx"
 import Vacancies from "./pages/Vacancies.tsx"
 
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <Navigate to={ROUTES.DASHBOARD} replace/>,
+            },
+            {
+                path: ROUTES.SCRAPER,
+                element: <Scraper/>,
             },
             {
                 path: ROUTES.DASHBOARD,

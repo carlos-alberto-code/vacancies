@@ -15,18 +15,23 @@ export interface AppMenuItem {
 
 export const SIDEBAR_ITEMS: AppMenuItem[] = [
     {
+        key: ROUTES.SCRAPER,
+        label: 'Scraper',
+        icon: <DesktopOutlined/>,
+    },
+    {
         key: ROUTES.DASHBOARD,
         label: 'Dashboard',
         icon: <PieChartOutlined/>,
     },
     {
         key: ROUTES.VACANCIES,
-        label: 'Mis Vacantes',
+        label: 'Vacantes',
         icon: <DesktopOutlined/>,
     },
     {
         key: ROUTES.PROFILE,
-        label: 'Perfil',
+        label: 'Perfil Profesional',
         icon: <UserOutlined/>,
     },
 ];
